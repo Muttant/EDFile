@@ -68,18 +68,46 @@
 #        crypto-lib)
 
 
+#cmake_minimum_required(VERSION 3.22.1)
+#
+#project("tt")
+#
+## Thêm thư viện C++ từ mã nguồn
+#add_library(tt SHARED src/main/cpp/native-lib.cpp)
+#
+## Tìm thư viện log của Android
+#find_library(log-lib log)
+#
+## Đảm bảo các thư viện OpenSSL được tìm thấy trong thư mục jniLibs
+#set(OpenSSL_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs)
+#
+## Liên kết các thư viện OpenSSL đã được biên dịch sẵn
+#add_library(ssl-lib IMPORTED)
+#set_target_properties(ssl-lib PROPERTIES IMPORTED_LOCATION
+#        ${OpenSSL_DIR}/libssl.so)
+#
+#add_library(crypto-lib IMPORTED)
+#set_target_properties(crypto-lib PROPERTIES IMPORTED_LOCATION
+#        ${OpenSSL_DIR}/libcrypto.so)
+#
+## Liên kết thư viện chính với các thư viện Android và OpenSSL
+#target_link_libraries(tt
+#        android
+#        log
+#        ssl-lib
+#        crypto-lib)
+
+
 cmake_minimum_required(VERSION 3.22.1)
 
+# Đặt tên dự án
 project("tt")
 
 # Thêm thư viện C++ từ mã nguồn
-add_library(tt SHARED src/main/cpp/native-lib.cpp)
-
-# Tìm thư viện log của Android
-find_library(log-lib log)
+add_library(${CMAKE_PROJECT_NAME} SHARED cpp/native-lib.cpp)
 
 # Đảm bảo các thư viện OpenSSL được tìm thấy trong thư mục jniLibs
-set(OpenSSL_DIR ${CMAKE_SOURCE_DIR}/src/main/jniLibs)
+set(OpenSSL_DIR ${CMAKE_SOURCE_DIR}/../jniLibs)
 
 # Liên kết các thư viện OpenSSL đã được biên dịch sẵn
 add_library(ssl-lib IMPORTED)
@@ -91,7 +119,7 @@ set_target_properties(crypto-lib PROPERTIES IMPORTED_LOCATION
         ${OpenSSL_DIR}/libcrypto.so)
 
 # Liên kết thư viện chính với các thư viện Android và OpenSSL
-target_link_libraries(tt
+target_link_libraries(${CMAKE_PROJECT_NAME}
         android
         log
         ssl-lib
